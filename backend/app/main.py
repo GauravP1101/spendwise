@@ -7,6 +7,7 @@ from app.db.database import engine
 from app.api.routes.category import router as category_router
 from app.api.routes.subscription import router as subscription_router
 from app.api.routes.budget import router as budget_router
+from app.api.routes.dashboard import router as dashboard_router
 
 app = FastAPI(
     title="SpendWise API",
@@ -19,6 +20,7 @@ app.include_router(category_router)
 app.include_router(transaction_router)
 app.include_router(subscription_router)
 app.include_router(budget_router)
+app.include_router(dashboard_router)
 
 @app.get("/health")
 def health_check():
