@@ -14,56 +14,106 @@ function AppLayout() {
   const { user, logout } = useAuth();
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <aside className="hidden w-64 shrink-0 border-r bg-white md:flex md:flex-col">
-        <div className="border-b px-6 py-5">
-          <div className="text-2xl font-bold text-gray-900">SpendWise</div>
+    <div className="min-h-screen bg-[#f5f7fb]">
+      <div className="flex min-h-screen">
+        <aside className="hidden w-[250px] shrink-0 flex-col border-r border-gray-200 bg-white lg:flex">
+          <div className="border-b border-gray-100 px-6 py-5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-950 text-sm font-bold text-white">
+                S
+              </div>
 
-          <p className="mt-1 text-xs text-gray-500">Personal finance tracker</p>
-        </div>
+              <div>
+                <p className="text-[15px] font-semibold text-gray-950">
+                  SpendWise
+                </p>
+                <p className="text-xs text-gray-400">Personal finance</p>
+              </div>
+            </div>
+          </div>
 
-        <nav className="flex-1 space-y-1 p-4">
-          <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wide text-gray-400">
-            Overview
-          </p>
+          <div className="px-4 pt-6">
+            <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-gray-400">
+              Overview
+            </p>
 
-          {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) =>
-                `block rounded-lg px-3 py-2.5 text-sm font-medium transition ${
-                  isActive
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                }`
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+            <nav className="space-y-1">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className={({ isActive }) =>
+                    [
+                      "group flex items-center rounded-xl px-3 py-2.5",
+                      "text-sm font-medium transition",
+                      isActive
+                        ? "bg-gray-950 text-white shadow-sm"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-950",
+                    ].join(" ")
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <span
+                        className={[
+                          "mr-3 h-1.5 w-1.5 rounded-full",
+                          isActive
+                            ? "bg-white"
+                            : "bg-gray-300 group-hover:bg-gray-500",
+                        ].join(" ")}
+                      />
 
-        <div className="border-t p-4">
-          <p className="truncate px-3 text-sm font-medium text-gray-900">
-            {user?.email}
-          </p>
+                      {item.label}
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
+          </div>
 
-          <button
-            type="button"
-            onClick={logout}
-            className="mt-3 w-full rounded-lg px-3 py-2 text-left text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900"
-          >
-            Sign out
-          </button>
-        </div>
-      </aside>
+          <div className="mt-auto border-t border-gray-100 p-4">
+            <div className="rounded-xl bg-gray-50 p-3">
+              <p className="truncate text-sm font-semibold text-gray-900">
+                {user?.email}
+              </p>
 
-      <main className="min-w-0 flex-1 p-4 md:p-8">
-        <div className="mx-auto max-w-7xl">
-          <Outlet />
-        </div>
-      </main>
+              <button
+                type="button"
+                onClick={logout}
+                className="mt-2 text-sm font-medium text-gray-500 transition hover:text-red-600"
+              >
+                Sign out
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <main className="min-w-0 flex-1">
+          <div className="border-b border-gray-200 bg-white lg:hidden">
+            <div className="flex items-center justify-between px-4 py-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-950 text-sm font-bold text-white">
+                  S
+                </div>
+
+                <span className="font-semibold text-gray-950">SpendWise</span>
+              </div>
+
+              <button
+                type="button"
+                onClick={logout}
+                className="text-sm font-medium text-gray-500"
+              >
+                Sign out
+              </button>
+            </div>
+          </div>
+
+          <div className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+            <Outlet />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
