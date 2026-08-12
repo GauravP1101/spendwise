@@ -51,7 +51,37 @@ function Budgets() {
   }
 
   useEffect(() => {
-    loadData();
+    let cancelled = false;
+
+    async function loadInitialData() {
+      try {
+        const [budgetData, categoryData] = await Promise.all([
+          getBudgets(month, year),
+          getCategories(),
+        ]);
+
+        if (cancelled) {
+          return;
+        }
+
+        setBudgets(budgetData);
+        setCategories(categoryData);
+      } catch {
+        if (!cancelled) {
+          setError("Unable to load budgets.");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    void loadInitialData();
+
+    return () => {
+      cancelled = true;
+    };
   }, [month, year]);
 
   const expenseCategories = categories.filter(

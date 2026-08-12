@@ -43,7 +43,31 @@ function Subscriptions() {
   }
 
   useEffect(() => {
-    loadSubscriptions();
+    let cancelled = false;
+
+    async function loadInitialSubscriptions() {
+      try {
+        const data = await getSubscriptions();
+
+        if (!cancelled) {
+          setSubscriptions(data);
+        }
+      } catch {
+        if (!cancelled) {
+          setError("Unable to load subscriptions.");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    void loadInitialSubscriptions();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

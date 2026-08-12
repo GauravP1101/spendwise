@@ -35,8 +35,6 @@ function Transactions() {
 
   async function loadData() {
     try {
-      setIsLoading(true);
-
       const [transactionData, categoryData] = await Promise.all([
         getTransactions(),
         getCategories(),
@@ -52,7 +50,37 @@ function Transactions() {
   }
 
   useEffect(() => {
-    loadData();
+    let cancelled = false;
+
+    async function loadInitialData() {
+      try {
+        const [transactionData, categoryData] = await Promise.all([
+          getTransactions(),
+          getCategories(),
+        ]);
+
+        if (cancelled) {
+          return;
+        }
+
+        setTransactions(transactionData);
+        setCategories(categoryData);
+      } catch {
+        if (!cancelled) {
+          setError("Unable to load transactions.");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    void loadInitialData();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const filteredTransactions = useMemo(() => {
