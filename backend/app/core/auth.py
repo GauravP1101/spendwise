@@ -7,7 +7,6 @@ from app.config import settings
 from app.core.security import ALGORITHM
 from app.db.session import get_db
 from app.models.user import User
-from app.services.auth import get_user_by_email
 
 
 oauth2_scheme = OAuth2PasswordBearer(

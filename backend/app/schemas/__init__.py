@@ -11,6 +11,7 @@ from app.schemas.transaction import (
     TransactionUpdate,
 )
 from app.schemas.user import UserCreate, UserResponse
+from app.schemas.dashboard import DashboardSummary
 
 __all__ = [
     "BudgetCreate",
