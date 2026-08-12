@@ -12,6 +12,7 @@ from app.schemas.transaction import (
 )
 from app.schemas.user import UserCreate, UserResponse
 from app.schemas.dashboard import DashboardSummary
+from app.schemas.analytics import AnalyticsSummary
 
 __all__ = [
     "BudgetCreate",
@@ -27,4 +28,5 @@ __all__ = [
     "TransactionUpdate",
     "UserCreate",
     "UserResponse",
+    "AnalyticsSummary",
 ]

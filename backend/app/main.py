@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
+from app.api.routes.analytics import router as analytics_router
 from app.api.routes.auth import router as auth_router
 from app.api.routes.budget import router as budget_router
 from app.api.routes.category import router as category_router
@@ -16,7 +17,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -25,13 +25,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 app.include_router(auth_router)
 app.include_router(category_router)
 app.include_router(transaction_router)
 app.include_router(subscription_router)
 app.include_router(budget_router)
 app.include_router(dashboard_router)
+app.include_router(analytics_router)
 
 
 @app.get("/health")
